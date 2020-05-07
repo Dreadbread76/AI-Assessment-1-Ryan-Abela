@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 
 public class AIStateMachine1 : MonoBehaviour
@@ -30,11 +31,15 @@ public class AIStateMachine1 : MonoBehaviour
 
     [Header("AI stat variables")]
     public float maxHealth = 100f;
-    public float enemyhealth = 100f;
+    public float enemyHealth = 100f;
     public float damage = 20f;
     public float attackRange = 3f;
     float fleeHealth;
     public float enemySpeed = 1f;
+
+    [Header("Health Displays")]
+    public Text playerHealthDisplay;
+    public Text enemyHealthDisplay;
 
     #endregion
     #region States
@@ -59,10 +64,11 @@ public class AIStateMachine1 : MonoBehaviour
     }
     void Update()
     {
-        
-        
+        enemyHealthDisplay.text = "Enemy HP: " + enemyHealth;
+        playerHealthDisplay.text = "Player HP: " + PLAYER.playerHealth;
+
         //DETECT WHETHER HEALTH IS <25% AND FLEE IF IT IS
-        if (enemyhealth < fleeHealth && enemyhealth < PLAYER.playerHealth)
+        if (enemyHealth < fleeHealth && enemyHealth < PLAYER.playerHealth)
         {
             state = State.Flee;
             FleeState();
@@ -192,8 +198,8 @@ public class AIStateMachine1 : MonoBehaviour
         if (other.CompareTag("Bullet"))
         {
             //IF A BULLET HITS, TAKE AWAY HEALTH
-            enemyhealth = enemyhealth - damage;
-            Debug.Log("enemy health = " + enemyhealth);
+            enemyHealth = enemyHealth - damage;
+            Debug.Log("enemy health = " + enemyHealth);
 
         }
     }
